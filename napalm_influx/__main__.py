@@ -13,6 +13,8 @@ def main():
     main entry point
     """
 
+    print("starting poller")
+
     # load config file
     try:
         config = ConfigObj('/etc/napalm-influx/napalm-influx.conf')
@@ -33,21 +35,27 @@ def main():
 
     # poll routers
     try:
-        napalm_influx = NapalmInflux(host=config.get("influx", "host"),
-                                     port=config.get("influx", "port"),
-                                     user=config.get("influx", "user"),
-                                     passwd=config.get("influx", "passwd"),
-                                     db=config.get("influx", "db"))
+        print("init napalm-influx")
+        napalm_influx = NapalmInflux(host=config['influx'].get("host"),
+                                     port=config['influx'].get("port"),
+                                     user=config['influx'].get("user"),
+                                     passwd=config['influx'].get("passwd"),
+                                     db=config['influx'].get("db"))
+        print("init napalm-influx done")
 
+        print("poll routers")
         for router in config["routers"].keys():
+            print("processing: " + router)
             napalm_influx.run(device_host=router,
-                              user=config.get("routers", router, "user"),
-                              passwd=config.get("routers", router, "passwd"),
-                              device_os=config.get("routers", router, "router_os"))
+                              user=config['routers'][router].get("user"),
+                              passwd=config['routers'][router].get("passwd"),
+                              device_os=config['routers'][router].get("router_os"))
+            print("done processing: " + router)
     except Exception as err:
         print "Cannot poll router: {0}".format(err)
         sys.exit(1)
 
+    print("poller finished")
 
 if __name__ == "__main__":
     main()
