@@ -1,0 +1,22 @@
+{
+    "Ethernet2": {
+        "physical_channels": {
+            "channel": [
+                {
+                    "index": 0,
+                    "state": {
+                        "input_power": {
+                            "instant": 0.0, "avg": 0.0, "min": 0.0, "max": 0.0,
+                        },
+                        "output_power": {
+                            "instant": 0.0, "avg": 0.0, "min": 0.0, "max": 0.0,
+                        },
+                        "laser_bias_current": {
+                            "instant": 0.0, "avg": 0.0, "min": 0.0, "max": 0.0,
+                        },
+                    }
+                }
+            ]
+        }
+    }
+}

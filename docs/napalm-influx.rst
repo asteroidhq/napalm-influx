@@ -10,7 +10,14 @@ NapalmInflux
     :show-inheritance:
 
 
-get_interface_counters 
+get_interfaces_counters
 -----------------------------------
 
-.. autofunction:: napalm_influx.get_interface_counters.get_interface_counters
+.. autofunction:: napalm_influx.get_interfaces_counters.get_interfaces_counters
+
+
+get_optics
+-----------------------------------
+
+.. autofunction:: napalm_influx.get_optics.get_optics
+

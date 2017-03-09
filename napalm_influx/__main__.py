@@ -49,13 +49,15 @@ def main():
             napalm_influx.run(device_host=router,
                               user=config['routers'][router].get("user"),
                               passwd=config['routers'][router].get("passwd"),
-                              device_os=config['routers'][router].get("router_os"))
+                              device_os=config['routers'][router].get("router_os"),
+                              tags=config['routers'][router].get("tags"))
             print("done processing: " + router)
     except Exception as err:
         print "Cannot poll router: {0}".format(err)
         sys.exit(1)
 
     print("poller finished")
+
 
 if __name__ == "__main__":
     main()

@@ -4,12 +4,14 @@
 import datetime
 
 
-def get_interface_counters(device_name, device):
+def get_interfaces_counters(device_name, device, tags):
     """
     fetch and parse interface counters data
 
+    :param config: (obj) confobj
     :param device_name: (str) device name string
     :param device: (obj) napalm device object
+    :param tags: (dict) dict of tags as specified in config file
     :returns: list of dicts prepared for influx insert
     """
 
@@ -20,7 +22,7 @@ def get_interface_counters(device_name, device):
     data = device.get_interfaces_counters()
 
     # {
-    #     u'Ethernet2': {
+    #     'Ethernet2': {
     #         'tx_multicast_packets': 699,
     #         'tx_discards': 0,
     #         'tx_octets': 88577,
@@ -43,17 +45,21 @@ def get_interface_counters(device_name, device):
     for interface_name, interface_data in data.items():
 
         # create tags
-        tags = {
+        insert_tags = {
             "device": device_name,
             "interface": interface_name,
         }
+
+        # add tags from config file if exist
+        if interface_name in tags:
+            insert_tags.update(tags[interface_name])
 
         # iterate though interface keys and values
         for key, value in interface_data.items():
             result.append(
                 {
                     "measurement": key,
-                    "tags": tags,
+                    "tags": insert_tags,
                     "time": time,
                     "fields": {
                         "value": value
