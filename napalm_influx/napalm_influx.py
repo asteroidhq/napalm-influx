@@ -38,13 +38,16 @@ class NapalmInflux(object):
         :param device_host: (str) device hostname
         :param user: (str) device user
         :param passwd: (str) device passwd
-        :param os: (str) a supported napam os
+        :param os: (str) a supported napalm os
         :param tags: (dict) dict of tags as specified in config file
         """
+        if tags is None:
+            tags = {}
+
+        print tags
 
         try:
-            # self.log.info('polling device: %s', device_host)
-            print 'polling device'
+            print "polling device: " + device_host
             # open device connection with napalm
             driver = get_network_driver(device_os)
             device = driver(device_host, user, passwd)
