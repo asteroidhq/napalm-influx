@@ -44,8 +44,6 @@ class NapalmInflux(object):
         if tags is None:
             tags = {}
 
-        print tags
-
         try:
             print "polling device: " + device_host
             # open device connection with napalm
