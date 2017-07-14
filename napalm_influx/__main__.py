@@ -22,8 +22,6 @@ def main():
     parser.add_argument('-c', nargs=1, dest="configfile_location", help="Configuration file, default: ./napalm-influx.conf, then /etc/napalm-influx/napalm-influx.conf")
     args = vars(parser.parse_args())
 
-    print args
-
     try:
         configfile_location = args['configfile_location'][0]
     except TypeError:
