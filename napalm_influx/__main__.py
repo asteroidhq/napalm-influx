@@ -3,6 +3,8 @@
 
 import sys
 import logging
+import argparse
+import os
 from configobj import ConfigObj
 
 from .napalm_influx import NapalmInflux
@@ -16,8 +18,28 @@ def main():
     print("starting poller")
 
     # load config file
+    parser = argparse.ArgumentParser(description="Poll router data and import it into InfluxDB")
+    parser.add_argument('-c', nargs=1, dest="configfile_location", help="Configuration file, default: ./napalm-influx.conf, then /etc/napalm-influx/napalm-influx.conf")
+    args = vars(parser.parse_args())
+
+    print args
+
     try:
-        config = ConfigObj('/etc/napalm-influx/napalm-influx.conf')
+        configfile_location = args['configfile_location'][0]
+    except TypeError:
+        if os.path.isfile("./napalm-influx.conf"):
+            configfile_location = "./napalm-influx.conf"
+        elif os.path.isfile("/etc/napalm-influx/napalm-influx.conf"):
+            configfile_location = "/etc/napalm-influx/napalm-influx.conf"
+        elif os.path.isfile("/etc/napalm-influx.conf"):
+            configfile_location = "/etc/napalm-influx.conf"
+        else:
+            print "Configuration file not found, specify with -c"
+            sys.exit(1)
+    print "Configuration file: " + str(configfile_location)
+
+    try:
+        config = ConfigObj(configfile_location)
     except IOError as err:
         print "Cannot open config file at: {0}".format(err)
         sys.exit(1)

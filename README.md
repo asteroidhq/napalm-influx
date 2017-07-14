@@ -12,3 +12,9 @@ Install
 * set up grafana
 * install napalm-influx
 * configure napalm-influx
+
+Usage
+======
+
+napalm_influx -c [configfile]
+
