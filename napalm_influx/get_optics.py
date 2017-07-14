@@ -48,8 +48,7 @@ def get_optics(device_name, device, tags):
     result = []
 
     # parse data
-    for interface_name, optics_data in data.items():
-
+    for interface_name, optics_data in data.iteritems():
         # create tags
         insert_tags = {
             "device": device_name,
@@ -64,7 +63,7 @@ def get_optics(device_name, device, tags):
         for channel in optics_data['physical_channels']['channel']:
             tags['channel'] = channel['index']
 
-            for state_name, state_value in channel['state'].items():
+            for state_name, state_value in channel['state'].iteritems():
                 key = state_name
                 value = state_value['instant']
                 result.append(
