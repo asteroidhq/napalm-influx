@@ -33,7 +33,7 @@ def main():
         print "Cannot init logging: {0}".format(err)
         sys.exit(1)
 
-    # poll routers
+    # establish link to Influx.
     try:
         print("init napalm-influx")
         napalm_influx = NapalmInflux(host=config['influx'].get("host"),
@@ -42,7 +42,12 @@ def main():
                                      passwd=config['influx'].get("passwd"),
                                      db=config['influx'].get("db"))
         print("init napalm-influx done")
+    except Exception as err:
+        print "Cannot link to InfluxDB.".format(err)
+        sys.exit(1)
 
+    # poll routers
+    try:
         print("poll routers")
         for router in config["routers"].keys():
             print("processing: " + router)
