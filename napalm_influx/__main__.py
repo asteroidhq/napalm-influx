@@ -84,7 +84,7 @@ def main():
                               tags=config['routers'][router].get("tags"))
             print("done processing: " + router)
     except Exception as err:
-        print "Cannot poll router: {0}".format(err)
+        print "Error polling or storing " + str(router) +  ": {0}".format(err)
         if args['debug_mode']:
             raise
         sys.exit(1)
