@@ -61,8 +61,6 @@ def get_optics(device_name, device, tags):
 
         # iterate though interface keys and values
         for channel in optics_data['physical_channels']['channel']:
-            tags['channel'] = channel['index']
-
             for state_name, state_value in channel['state'].iteritems():
                 key = state_name
                 value = state_value['instant']
