@@ -20,6 +20,7 @@ def main():
     # load config file
     parser = argparse.ArgumentParser(description="Poll router data and import it into InfluxDB")
     parser.add_argument('-c', nargs=1, dest="configfile_location", help="Configuration file, default: ./napalm-influx.conf, then /etc/napalm-influx/napalm-influx.conf")
+    parser.add_argument('-d', dest='debug_mode', action='store_true', help="Print additional debug info and full stack traces")
     args = vars(parser.parse_args())
 
     try:
@@ -44,6 +45,9 @@ def main():
     except Exception as err:
         print "Cannot load config file: {0}".format(err)
         sys.exit(1)
+
+    if args['debug_mode']:
+        print "Debug mode engaged"
 
     # set up logging
     try:
@@ -79,6 +83,8 @@ def main():
             print("done processing: " + router)
     except Exception as err:
         print "Cannot poll router: {0}".format(err)
+        if args['debug_mode']:
+            raise
         sys.exit(1)
 
     print("poller finished")
