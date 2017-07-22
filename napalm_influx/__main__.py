@@ -73,6 +73,8 @@ def main():
     # poll routers
     try:
         print("poll routers")
+        if args['debug_mode']:
+            print "Routers to poll: " + str(config["routers"].keys())
         for router in config["routers"].keys():
             print("processing: " + router)
             napalm_influx.run(device_host=router,
