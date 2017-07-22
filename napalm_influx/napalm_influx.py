@@ -54,16 +54,15 @@ class NapalmInflux(object):
             # get interface counter data
             iface_counters = get_interfaces_counters(device_host, device, tags)
             print '  done polling device interfaces'
-            print iface_counters
 
             # get optics data
-            optics = get_optics(device_host, device, tags)
+            optics_counters = get_optics(device_host, device, tags)
             print '  done polling device optical levels'
-            print optics
 
             # write data to influx
             print 'writing data to influx'
             self.influx.write_points(iface_counters)
+            self.influx.write_points(optics_counters)
             # self.log.info('done polling device: %s', device_host)
             print '  done writing data to influx'
         except Exception as err:
