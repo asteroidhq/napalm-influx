@@ -47,7 +47,7 @@ def main():
         sys.exit(1)
 
     try:
-        logfile_location = config['poller']['logfile_location']
+        logfile_location = config['poller'].get("logfile_location")
     except KeyError:
         logfile_location = '/var/log/napalm-influx.log'
     except Exception:
