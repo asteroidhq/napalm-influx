@@ -46,12 +46,19 @@ def main():
         print "Cannot load config file: {0}".format(err)
         sys.exit(1)
 
+    try:
+        logfile_location = config['poller']['logfile_location']
+    except KeyError:
+        logfile_location = '/var/log/napalm-influx.log'
+    except Exception:
+        raise
+
     if args['debug_mode']:
         print "Debug mode engaged"
 
     # set up logging
     try:
-        logging.basicConfig(filename='/var/log/napalm-influx.log',
+        logging.basicConfig(filename=logfile_location,
                             level=logging.DEBUG)
     except Exception as err:
         print "Cannot init logging: {0}".format(err)
