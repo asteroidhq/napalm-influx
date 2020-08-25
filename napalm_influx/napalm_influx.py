@@ -45,7 +45,7 @@ class NapalmInflux(object):
             tags = {}
 
         try:
-            print "polling device: " + device_host
+            print("polling device: " + device_host)
             # open device connection with napalm
             driver = get_network_driver(device_os)
             device = driver(device_host, user, passwd)
@@ -53,18 +53,18 @@ class NapalmInflux(object):
 
             # get interface counter data
             iface_counters = get_interfaces_counters(device_host, device, tags)
-            print '  done polling device interfaces'
+            print('  done polling device interfaces')
 
             # get optics data
             optics_counters = get_optics(device_host, device, tags)
-            print '  done polling device optical levels'
+            print('  done polling device optical levels')
 
             # write data to influx
-            print 'writing data to influx'
+            print('writing data to influx')
             self.influx.write_points(iface_counters)
             self.influx.write_points(optics_counters)
             # self.log.info('done polling device: %s', device_host)
-            print '  done writing data to influx'
+            print('  done writing data to influx')
         except Exception as err:
-            print err
+            print(err)
             raise
