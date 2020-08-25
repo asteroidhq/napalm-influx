@@ -33,17 +33,17 @@ def main():
         elif os.path.isfile("/etc/napalm-influx.conf"):
             configfile_location = "/etc/napalm-influx.conf"
         else:
-            print "Configuration file not found, specify with -c"
+            print("Configuration file not found, specify with -c")
             sys.exit(1)
-    print "Configuration file: " + str(configfile_location)
+    print("Configuration file: " + str(configfile_location))
 
     try:
         config = ConfigObj(configfile_location)
     except IOError as err:
-        print "Cannot open config file at: {0}".format(err)
+        print("Cannot open config file at: {0}".format(err))
         sys.exit(1)
     except Exception as err:
-        print "Cannot load config file: {0}".format(err)
+        print("Cannot load config file: {0}".format(err))
         sys.exit(1)
 
     try:
@@ -54,14 +54,14 @@ def main():
         raise
 
     if args['debug_mode']:
-        print "Debug mode engaged"
+        print("Debug mode engaged")
 
     # set up logging
     try:
         logging.basicConfig(filename=logfile_location,
                             level=logging.DEBUG)
     except Exception as err:
-        print "Cannot init logging: {0}".format(err)
+        print("Cannot init logging: {0}".format(err))
         sys.exit(1)
 
     # establish link to Influx.
@@ -74,14 +74,14 @@ def main():
                                      db=config['influx'].get("db"))
         print("init napalm-influx done")
     except Exception as err:
-        print "Cannot link to InfluxDB.".format(err)
+        print("Cannot link to InfluxDB.".format(err))
         sys.exit(1)
 
     # poll routers
     try:
         print("poll routers")
         if args['debug_mode']:
-            print "Routers to poll: " + str(config["routers"].keys())
+            print("Routers to poll: " + str(config["routers"].keys()))
         for router in config["routers"].keys():
             print("processing: " + router)
             napalm_influx.run(device_host=router,
@@ -91,7 +91,7 @@ def main():
                               tags=config['routers'][router].get("tags"))
             print("done processing: " + router)
     except Exception as err:
-        print "Error polling or storing " + str(router) +  ": {0}".format(err)
+        print("Error polling or storing " + str(router) +  ": {0}".format(err))
         if args['debug_mode']:
             raise
         sys.exit(1)
