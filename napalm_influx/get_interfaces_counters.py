@@ -42,7 +42,7 @@ def get_interfaces_counters(device_name, device, tags):
     result = []
 
     # parse data
-    for interface_name, interface_data in data.iteritems():
+    for interface_name, interface_data in data.items():
 
         # create tags
         insert_tags = {
@@ -55,7 +55,7 @@ def get_interfaces_counters(device_name, device, tags):
             insert_tags.update(tags[interface_name])
 
         # iterate though interface keys and values
-        for key, value in interface_data.iteritems():
+        for key, value in interface_data.items():
             result.append(
                 {
                     "measurement": key,
