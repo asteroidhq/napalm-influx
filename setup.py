@@ -1,12 +1,14 @@
-import uuid
-
 from setuptools import setup, find_packages
-from pip.req import parse_requirements
+import pathlib
+import pkg_resources
+import setuptools
 
-__author__ = 'elisa'
-
-install_reqs = parse_requirements('requirements.txt', session=uuid.uuid1())
-reqs = [str(ir.req) for ir in install_reqs if ir.req]
+with pathlib.Path('requirements.txt').open() as requirements_txt:
+    reqs = [
+        str(requirement)
+        for requirement
+        in pkg_resources.parse_requirements(requirements_txt)
+    ]
 
 setup(
     name="napalm_influx",
